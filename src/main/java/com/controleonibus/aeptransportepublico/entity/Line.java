@@ -10,9 +10,7 @@ public class Line {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String codigo;
+    private String numero;
     private String nome;
 
-    @OneToMany(mappedBy = "linhaAtual")
-    private List<Onibus> onibusAtuais;
 }
