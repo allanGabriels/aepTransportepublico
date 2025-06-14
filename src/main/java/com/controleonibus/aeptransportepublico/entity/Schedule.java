@@ -12,8 +12,8 @@ public class Schedule {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY) // para evitar carregamentos desnecessários
-    @JoinColumn(name = "id_line")
-    private Long id_line;
+    @JoinColumn(name = "line_id", nullable = false)
+    private Long line_id;
 
     private LocalTime departureTime;
 

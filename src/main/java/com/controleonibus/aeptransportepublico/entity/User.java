@@ -9,10 +9,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String nomeCompleto;
+    private String fullName;
     private String cpf;
-    private String idade;
+    private String age;
 
     @Enumerated
-    private Enum funcao;
+    private Enum role;
 }

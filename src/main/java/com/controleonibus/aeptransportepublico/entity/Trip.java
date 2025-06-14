@@ -5,13 +5,13 @@ import java.time.LocalDate;
 import jakarta.persistence.*;
 
 @Entity
-public class Viagem {
+public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate dataViagem;
-    private String horaSaida;
-    private String horaRealSaida;
+    private LocalDate tripDate;
+    private String scheduledDepertureTime;
+    private String actualDepartureTime;
 
 }

@@ -10,7 +10,7 @@ public class Line {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String numero;
-    private String nome;
+    private String number;
+    private String name;
 
 }

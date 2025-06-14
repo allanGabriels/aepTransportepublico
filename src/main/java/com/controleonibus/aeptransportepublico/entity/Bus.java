@@ -9,7 +9,7 @@ public class Bus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int numero;
-    private int lugares;
-    private Boolean eletrico;
+    private int number;
+    private int seats;
+    private Boolean electric;
 }
