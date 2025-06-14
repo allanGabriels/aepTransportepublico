@@ -1,8 +1,8 @@
 package com.controleonibus.aeptransportepublico.entity;
 
 import jakarta.persistence.*;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class Line {
@@ -10,7 +10,20 @@ public class Line {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Getter
+    @Setter
     private String number;
+
+    @Getter
+    @Setter
     private String name;
+
+    public Line() {
+    }
+
+    public Line(String number, String name) {
+        this.number = number;
+        this.name = name;
+    }
 
 }
