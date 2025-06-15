@@ -22,6 +22,11 @@ public class IncidentType {
     @Enumerated
     private IncidentLevel level;
 
+    public IncidentType(String incidentType, String level) {
+        this.incidentType = IncidentTypes.valueOf(incidentType);
+        this.level = IncidentLevel.valueOf(level);
+    }
+
     public IncidentTypes getIncidentType() {
         return this.incidentType;
     }

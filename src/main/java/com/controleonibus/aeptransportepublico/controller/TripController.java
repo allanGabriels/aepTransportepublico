@@ -8,6 +8,9 @@ import com.controleonibus.aeptransportepublico.dto.TripDto;
 import com.controleonibus.aeptransportepublico.entity.Bus;
 import com.controleonibus.aeptransportepublico.repository.BusRepository;
 import com.controleonibus.aeptransportepublico.repository.UserRepository;
+
+import jakarta.validation.Valid;
+
 import com.controleonibus.aeptransportepublico.repository.ScheduleRepository;
 import com.controleonibus.aeptransportepublico.entity.User;
 import org.springframework.web.server.ResponseStatusException;
@@ -55,17 +58,19 @@ public class TripController {
 
         }
 
-        @GetMapping("/bus/{busId}")
-        public ResponseEntity<List<Trip>> findByBusId(@PathVariable Long busId) {
-                List<Trip> trips = tripRepository.findByBusId(busId);
-                if (trips.isEmpty()) {
-                        return ResponseEntity.notFound().build();
-                }
-                return ResponseEntity.ok(trips);
-        }
+        /*
+         * @GetMapping("/trips/{busId}")
+         * public ResponseEntity<List<Trip>> findByBusId(@PathVariable Long busId) {
+         * List<Trip> trips = tripRepository.findByBusId(busId);
+         * if (trips.isEmpty()) {
+         * return ResponseEntity.notFound().build();
+         * }
+         * return ResponseEntity.ok(trips);
+         * }
+         */
 
         @PostMapping
-        public Trip save(@RequestBody TripDto tripDto) {
+        public Trip save(@Valid @RequestBody TripDto tripDto) {
                 User driver = userRepository.findById(tripDto.driverID())
                                 .orElseThrow(() -> new RuntimeException("Driver not found"));
 
