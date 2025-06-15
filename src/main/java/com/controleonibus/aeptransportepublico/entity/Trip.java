@@ -9,8 +9,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 public class Trip {
 
@@ -49,5 +47,61 @@ public class Trip {
         this.schedule = schedule;
         this.scheduledDepartureTime = scheduledDepartureTime;
         // this.actualDepartureTime =
+    }
+
+    public LocalDate getTripDate() {
+        return tripDate;
+    }
+
+    public void setTripDate(LocalDate tripDate) {
+        this.tripDate = tripDate;
+    }
+
+    public User getDriver() {
+        return driver;
+    }
+
+    public void setDriver(User driver) {
+        this.driver = driver;
+    }
+
+    public TripStatus getTripStatus() {
+        return tripStatus;
+    }
+
+    public void setTripStatus(TripStatus tripStatus) {
+        this.tripStatus = tripStatus;
+    }
+
+    public Bus getBus() {
+        return bus;
+    }
+
+    public void setBus(Bus bus) {
+        this.bus = bus;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public LocalTime getScheduledDepartureTime() {
+        return scheduledDepartureTime;
+    }
+
+    public void setScheduledDepartureTime(LocalTime scheduledDepartureTime) {
+        this.scheduledDepartureTime = scheduledDepartureTime;
+    }
+
+    public LocalTime getActualDepartureTime() {
+        return actualDepartureTime;
+    }
+
+    public void setActualDepartureTime(LocalTime actualDepartureTime) {
+        this.actualDepartureTime = actualDepartureTime;
     }
 }

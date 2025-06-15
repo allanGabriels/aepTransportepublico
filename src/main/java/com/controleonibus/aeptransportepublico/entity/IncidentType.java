@@ -22,4 +22,23 @@ public class IncidentType {
     @Enumerated
     private IncidentLevel level;
 
+    public IncidentTypes getIncidentType() {
+        return this.incidentType;
+    }
+
+    public void setIncidentType(IncidentTypes incidentType) {
+        this.incidentType = incidentType;
+    }
+
+    public IncidentLevel getLevel() {
+        return this.level;
+    }
+
+    public void setLevel(IncidentLevel level) {
+        this.level = level;
+    }
+
+    public IncidentType() {
+    }
+
 }

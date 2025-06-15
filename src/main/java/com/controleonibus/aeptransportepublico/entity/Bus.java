@@ -11,16 +11,10 @@ public class Bus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     private int number;
 
-    @Getter
-    @Setter
     private int seats;
 
-    @Getter
-    @Setter
     private Boolean electric;
 
     public Bus() {
@@ -31,6 +25,34 @@ public class Bus {
         this.number = number;
         this.seats = seats;
         this.electric = electric;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
+    public void setElectric(Boolean electric) {
+        this.electric = electric;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public int getSeats() {
+        return this.seats;
+    }
+
+    public Boolean getElectric() {
+        return this.electric;
+    }
+
+    public Boolean isElectric() {
+        return this.electric;
     }
 
 }

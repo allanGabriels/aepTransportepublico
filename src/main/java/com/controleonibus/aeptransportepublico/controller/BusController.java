@@ -33,8 +33,8 @@ public class BusController {
         return busRepository.findAll();
     }
 
-    @GetMapping("{id}")
-    public Bus find(Long id) {
+    @GetMapping("/{id}")
+    public Bus find(@PathVariable Long id) {
         return busRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Onibus não encontrado"));
     }
@@ -49,7 +49,7 @@ public class BusController {
         return busRepository.save(newBus);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public Bus update(@PathVariable Long id, @RequestBody BusDto busDto) {
         Bus existingBus = busRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Onibus não encontrado"));
@@ -60,7 +60,7 @@ public class BusController {
         return busRepository.save(existingBus);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!busRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Onibus não encontrado");

@@ -19,7 +19,7 @@ import java.util.List;
 import com.controleonibus.aeptransportepublico.repository.LineRepository;
 
 @RestController
-@RequestMapping("/line")
+@RequestMapping("/lines")
 public class LineController {
 
     public LineRepository lineRepository;
@@ -33,8 +33,8 @@ public class LineController {
         return lineRepository.findAll();
     }
 
-    @GetMapping("{id}")
-    public Line find(Long id) {
+    @GetMapping("/{id}")
+    public Line find(@PathVariable Long id) {
         return lineRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Linha não encontrada"));
     }
@@ -47,7 +47,7 @@ public class LineController {
         return lineRepository.save(newLine);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public Line update(@PathVariable Long id, @RequestBody LineDto lineDto) {
         Line existingLine = lineRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Linha não encontrada"));
@@ -58,7 +58,7 @@ public class LineController {
         return lineRepository.save(existingLine);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Line existingLine = lineRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Linha não encontrada"));

@@ -3,11 +3,7 @@ package com.controleonibus.aeptransportepublico.entity;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
 public class Schedule {
 
@@ -15,7 +11,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // para evitar carregamentos desnecessários
+    @ManyToOne
     @JoinColumn(name = "line", nullable = false)
     private Line line;
 
@@ -30,4 +26,19 @@ public class Schedule {
         this.departureTime = departureTime;
     }
 
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
 }

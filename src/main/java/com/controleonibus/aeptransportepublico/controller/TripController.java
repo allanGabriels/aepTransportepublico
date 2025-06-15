@@ -49,14 +49,14 @@ public class TripController {
         }
 
         @GetMapping("/{id}")
-        public Trip find(Long id) {
+        public Trip find(@PathVariable Long id) {
                 return tripRepository.findById(id).orElseThrow(
                                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip não encontrada"));
 
         }
 
         @GetMapping("/bus/{busId}")
-        public ResponseEntity<List<Trip>> findByBusId(Long busId) {
+        public ResponseEntity<List<Trip>> findByBusId(@PathVariable Long busId) {
                 List<Trip> trips = tripRepository.findByBusId(busId);
                 if (trips.isEmpty()) {
                         return ResponseEntity.notFound().build();
@@ -84,7 +84,7 @@ public class TripController {
         }
 
         @PutMapping("/{id}")
-        public Trip update(@RequestBody TripDto tripDto, Long id) {
+        public Trip update(@PathVariable Long id, @RequestBody TripDto tripDto) {
                 Trip existingTrip = tripRepository.findById(id)
                                 .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
 

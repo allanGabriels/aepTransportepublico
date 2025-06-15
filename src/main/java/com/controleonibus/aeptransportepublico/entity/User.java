@@ -13,16 +13,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Getter
-    @Setter
     private String fullName;
 
-    @Getter
-    @Setter
     private String cpf;
 
-    @Getter
-    @Setter
     private int age;
 
     @Enumerated(EnumType.STRING)
@@ -46,4 +40,31 @@ public class User {
         this.role = UserRole.valueOf(role.toUpperCase());
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

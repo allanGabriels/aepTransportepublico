@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,108 +27,83 @@ import com.controleonibus.aeptransportepublico.repository.UserRepository;
 @RequestMapping("/incidents")
 public class IncidentController {
 
-    public IncidentRepository incidentRepository;
-    public TripRepository tripRepository;
-    public UserRepository userRepository;
-    public IncidentTypeRepository incidentTypeRepository;
+        public IncidentRepository incidentRepository;
+        public TripRepository tripRepository;
+        public UserRepository userRepository;
+        public IncidentTypeRepository incidentTypeRepository;
 
-    public IncidentController(IncidentRepository incidentRepository,
-            TripRepository tripRepository,
-            UserRepository userRepository,
-            IncidentTypeRepository incidentTypeRepository) {
-        this.incidentRepository = incidentRepository;
-        this.tripRepository = tripRepository;
-        this.userRepository = userRepository;
-        this.incidentTypeRepository = incidentTypeRepository;
-    }
-
-    @GetMapping
-    public List<Incident> list() {
-        return incidentRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Incident find(Long id) {
-        return incidentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Onibus não encontrado"));
-
-    }
-
-    @GetMapping("/bus/{busId}")
-    public List<Incident> findByBusId(Long busId) {
-        List<Incident> incidents = incidentRepository.findByBusId(busId);
-        if (incidents.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum incidente encontrado para o ônibus");
+        public IncidentController(IncidentRepository incidentRepository,
+                        TripRepository tripRepository,
+                        UserRepository userRepository,
+                        IncidentTypeRepository incidentTypeRepository) {
+                this.incidentRepository = incidentRepository;
+                this.tripRepository = tripRepository;
+                this.userRepository = userRepository;
+                this.incidentTypeRepository = incidentTypeRepository;
         }
-        return incidents;
-    }
 
-    @GetMapping("/fiscal/{fiscalId}")
-    public List<Incident> findByFiscalId(Long fiscalId) {
-        List<Incident> incidents = incidentRepository.findByFiscalId(fiscalId);
-        if (incidents.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum incidente encontrado para o fiscal");
+        @GetMapping
+        public List<Incident> list() {
+                return incidentRepository.findAll();
         }
-        return incidents;
-    }
 
-    @GetMapping("/type/{level}")
-    public List<Incident> findByIncidentType(String level) {
-        List<Incident> incidents = incidentRepository.findByIncidentType(level);
-        if (incidents.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Nenhum incidente encontrado para o tipo especificado");
+        @GetMapping("/{id}")
+        public Incident find(@PathVariable Long id) {
+                return incidentRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Onibus não encontrado"));
+
         }
-        return incidents;
-    }
 
-    @PostMapping
-    public Incident save(@RequestBody IncidentDto incidentDto) {
-        Trip trip = tripRepository.findById(incidentDto.tripId())
-                .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
+        @PostMapping
+        public Incident save(@RequestBody IncidentDto incidentDto) {
+                Trip trip = tripRepository.findById(incidentDto.tripId())
+                                .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
 
-        User fiscal = userRepository.findById(incidentDto.fiscalId())
-                .orElseThrow(() -> new RuntimeException("Fiscal não encontrado"));
+                User fiscal = userRepository.findById(incidentDto.fiscalId())
+                                .orElseThrow(() -> new RuntimeException("Fiscal não encontrado"));
 
-        IncidentType incidentType = incidentTypeRepository.findById(incidentDto.incidentType())
-                .orElseThrow(() -> new RuntimeException("Incident Type não encontrado"));
+                IncidentType incidentType = incidentTypeRepository.findById(incidentDto.incidentType())
+                                .orElseThrow(() -> new RuntimeException("Incident Type não encontrado"));
 
-        Incident newIncident = new Incident(
-                incidentDto.description(),
-                trip,
-                fiscal,
-                incidentType);
+                Incident newIncident = new Incident(
+                                incidentDto.description(),
+                                trip,
+                                fiscal,
+                                incidentType);
 
-        return incidentRepository.save(newIncident);
-    }
+                return incidentRepository.save(newIncident);
+        }
 
-    @PutMapping("/{id}")
-    public Incident update(@RequestBody IncidentDto incidentDto, Long id) {
-        Incident existingIncident = incidentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Incidente não encontrado"));
+        @PutMapping("/{id}")
+        public Incident update(@PathVariable Long id, @RequestBody IncidentDto incidentDto) {
+                Incident existingIncident = incidentRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Incidente não encontrado"));
 
-        Trip trip = tripRepository.findById(incidentDto.tripId())
-                .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
+                Trip trip = tripRepository.findById(incidentDto.tripId())
+                                .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
 
-        User fiscal = userRepository.findById(incidentDto.fiscalId())
-                .orElseThrow(() -> new RuntimeException("Fiscal não encontrado"));
+                User fiscal = userRepository.findById(incidentDto.fiscalId())
+                                .orElseThrow(() -> new RuntimeException("Fiscal não encontrado"));
 
-        IncidentType incidentType = incidentTypeRepository.findById(incidentDto.incidentType())
-                .orElseThrow(() -> new RuntimeException("Incident Type não encontrado"));
+                IncidentType incidentType = incidentTypeRepository.findById(incidentDto.incidentType())
+                                .orElseThrow(() -> new RuntimeException("Incident Type não encontrado"));
 
-        existingIncident.setDescription(incidentDto.description());
-        existingIncident.setTrip(trip);
-        existingIncident.setFiscal(fiscal);
-        existingIncident.setIncidentType(incidentType);
+                existingIncident.setDescription(incidentDto.description());
+                existingIncident.setTrip(trip);
+                existingIncident.setFiscal(fiscal);
+                existingIncident.setIncidentType(incidentType);
 
-        return incidentRepository.save(existingIncident);
-    }
+                return incidentRepository.save(existingIncident);
+        }
 
-    @DeleteMapping("/{id}")
-    public void delete(Long id) {
-        Incident existingIncident = incidentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Incidente não encontrado"));
-        incidentRepository.delete(existingIncident);
-    }
+        @DeleteMapping("/{id}")
+        public void delete(@PathVariable Long id) {
+                Incident existingIncident = incidentRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Incidente não encontrado"));
+                incidentRepository.delete(existingIncident);
+        }
 
 }

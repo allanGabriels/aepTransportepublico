@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User find(Long id) {
+    public User find(@PathVariable Long id) {
         return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
