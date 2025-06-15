@@ -1,9 +1,17 @@
 package com.controleonibus.aeptransportepublico.entity;
 
 import java.time.LocalDate;
+import com.controleonibus.aeptransportepublico.enums.IncidentTypes;
+import com.controleonibus.aeptransportepublico.entity.User;
+import com.controleonibus.aeptransportepublico.entity.IncidentType;
+import com.controleonibus.aeptransportepublico.entity.Trip;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Incident {
 
@@ -14,31 +22,27 @@ public class Incident {
     private String description;
     private LocalDate incidentDate;
 
-    @Enumerated(EnumType.STRING)
-    private Enum status;
-
     @ManyToOne(fetch = FetchType.LAZY) // faz com que os dados sejam carregando quando necessário
     @JoinColumn(name = "id_trip", nullable = false)
-    private Long trip_id;
+    private Trip trip;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_fiscal", nullable = false)
-    private Long fiscal_id;
+    private User fiscal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_incidentType", nullable = false)
-    private Long incidentType_Id;
+    private IncidentType incidentType;
 
     public Incident() {
         // Construtor padrão do Jpa
     }
 
-    public Incident(String description, Enum status, Long trip_id, Long fiscal_id, Long incidentType_id) {
+    public Incident(String description, Trip trip, User fiscal, IncidentType incidentType) {
         this.description = description;
-        this.status = status;
-        this.trip_id = trip_id;
-        this.fiscal_id = fiscal_id;
-        this.incidentType_Id = incidentType_id;
+        this.trip = trip;
+        this.fiscal = fiscal;
+        this.incidentType = incidentType;
         this.incidentDate = LocalDate.now();
     }
 
