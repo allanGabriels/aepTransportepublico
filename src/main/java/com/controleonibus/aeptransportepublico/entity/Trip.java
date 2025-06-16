@@ -6,8 +6,6 @@ import java.time.LocalTime;
 import com.controleonibus.aeptransportepublico.enums.TripStatus;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Trip {

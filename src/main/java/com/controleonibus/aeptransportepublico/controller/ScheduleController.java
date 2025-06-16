@@ -53,6 +53,35 @@ public class ScheduleController {
                                                 "Schedule não encontrado"));
         }
 
+        // Busca horário por nome ou número da linha
+        @GetMapping("/line/{identifier}")
+        public List<Schedule> findByLineIdentifier(@PathVariable String identifier) {
+                Line line = lineRepository.findByName(identifier)
+                                .or(() -> lineRepository.findByNumber(identifier))
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Linha não encontrada"));
+                List<Schedule> schedules = scheduleRepository.findByLineId(line.getId());
+                if (schedules == null || schedules.isEmpty()) {
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                        "Nenhum horário encontrado para a linha");
+                }
+                return schedules;
+        }
+
+        // Busca horários por número do ônibus
+        @GetMapping("/bus/number/{busNumber}")
+        public List<Schedule> findByBusNumber(@PathVariable String busNumber) {
+                Bus bus = busRepository.findByNumber(busNumber)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Ônibus não encontrado"));
+                List<Schedule> schedules = scheduleRepository.findByBusId(bus.getId());
+                if (schedules == null || schedules.isEmpty()) {
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                        "Nenhum horário encontrado para o ônibus");
+                }
+                return schedules;
+        }
+
         @PostMapping
         public Schedule save(@RequestBody ScheduleDto scheduleDto) {
                 Line line = lineRepository.findById(scheduleDto.lineId())

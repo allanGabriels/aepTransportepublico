@@ -3,8 +3,6 @@ package com.controleonibus.aeptransportepublico.entity;
 import com.controleonibus.aeptransportepublico.enums.UserRole;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

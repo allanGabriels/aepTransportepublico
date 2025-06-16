@@ -3,8 +3,6 @@ package com.controleonibus.aeptransportepublico.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Incident {
