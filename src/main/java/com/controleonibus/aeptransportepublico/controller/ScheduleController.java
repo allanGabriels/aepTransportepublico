@@ -68,9 +68,8 @@ public class ScheduleController {
                 return schedules;
         }
 
-        // Busca horários por número do ônibus
         @GetMapping("/bus/number/{busNumber}")
-        public List<Schedule> findByBusNumber(@PathVariable String busNumber) {
+        public List<Schedule> findByBusNumber(@PathVariable int busNumber) {
                 Bus bus = busRepository.findByNumber(busNumber)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                                                 "Ônibus não encontrado"));

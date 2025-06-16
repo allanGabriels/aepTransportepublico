@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface BusRepository extends JpaRepository<Bus, Long> {
 
-    Optional<Bus> findByNumber(String number);
+    Optional<Bus> findByNumber(int number);
 
 }

@@ -32,16 +32,16 @@ public class IncidentType {
         return this.incidentType;
     }
 
-    public void setIncidentType(IncidentTypes incidentType) {
-        this.incidentType = incidentType;
+    public void setIncidentType(String incidentType) {
+        this.incidentType = incidentType != null ? IncidentTypes.valueOf(incidentType.toUpperCase()) : null;
     }
 
     public IncidentLevel getLevel() {
         return this.level;
     }
 
-    public void setLevel(IncidentLevel level) {
-        this.level = level;
+    public void setLevel(String level) {
+        this.level = level != null ? IncidentLevel.valueOf(level.toUpperCase()) : null;
     }
 
     public IncidentType() {
