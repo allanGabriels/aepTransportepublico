@@ -40,6 +40,11 @@ public class UserController {
                 HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
+    @GetMapping("login/{nomeCompleto}/{cpf}")
+    public boolean login(@PathVariable String nomeCompleto, @PathVariable String cpf) {
+        return userRepository.findByFullNameAndCpf(nomeCompleto, cpf).isPresent();
+    }
+
     @PostMapping
     public User save(@RequestBody UserDto userDto) {
         User user = new User(
