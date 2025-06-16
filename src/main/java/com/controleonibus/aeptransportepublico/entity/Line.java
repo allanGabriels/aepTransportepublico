@@ -37,4 +37,8 @@ public class Line {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    public long getId() {
+        return id;
+    }
 }

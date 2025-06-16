@@ -55,4 +55,8 @@ public class Bus {
         return this.electric;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
 }

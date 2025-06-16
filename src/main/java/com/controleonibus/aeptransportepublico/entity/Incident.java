@@ -79,4 +79,8 @@ public class Incident {
     public void setIncidentType(IncidentType incidentType) {
         this.incidentType = incidentType;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

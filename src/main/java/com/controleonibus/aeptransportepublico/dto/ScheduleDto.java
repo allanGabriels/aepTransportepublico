@@ -2,7 +2,7 @@ package com.controleonibus.aeptransportepublico.dto;
 
 import java.time.LocalTime;
 
-public record ScheduleDto(Long lineId, LocalTime departureTime) {
+public record ScheduleDto(Long lineId, LocalTime departureTime, Long driverId, Long busId) {
 
     public ScheduleDto {
         if (lineId == null || departureTime == null) {

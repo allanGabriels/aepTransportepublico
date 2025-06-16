@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 
 import com.controleonibus.aeptransportepublico.dto.IncidentDto;
 import com.controleonibus.aeptransportepublico.entity.Incident;
@@ -56,7 +57,7 @@ public class IncidentController {
         }
 
         @PostMapping
-        public Incident save(@RequestBody IncidentDto incidentDto) {
+        public Incident save(@Valid @RequestBody IncidentDto incidentDto) {
                 Trip trip = tripRepository.findById(incidentDto.tripId())
                                 .orElseThrow(() -> new RuntimeException("Trip não encontrada"));
 

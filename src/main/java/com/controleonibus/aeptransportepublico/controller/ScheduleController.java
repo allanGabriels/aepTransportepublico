@@ -16,65 +16,90 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.controleonibus.aeptransportepublico.repository.LineRepository;
 import com.controleonibus.aeptransportepublico.repository.ScheduleRepository;
+import com.controleonibus.aeptransportepublico.repository.UserRepository;
+import com.controleonibus.aeptransportepublico.repository.BusRepository;
 import com.controleonibus.aeptransportepublico.entity.Schedule;
 import com.controleonibus.aeptransportepublico.dto.ScheduleDto;
 import com.controleonibus.aeptransportepublico.entity.Line;
+import com.controleonibus.aeptransportepublico.entity.User;
+import com.controleonibus.aeptransportepublico.entity.Bus;
 
 @RestController
 @RequestMapping("/schedules")
 public class ScheduleController {
 
-    public ScheduleRepository scheduleRepository;
-    public LineRepository lineRepository;
+        public ScheduleRepository scheduleRepository;
+        public LineRepository lineRepository;
+        public UserRepository driverRepository;
+        public BusRepository busRepository;
 
-    public ScheduleController(ScheduleRepository sheduleRepository, LineRepository lineRepository) {
-        this.scheduleRepository = sheduleRepository;
-        this.lineRepository = lineRepository;
-    }
+        public ScheduleController(ScheduleRepository sheduleRepository, LineRepository lineRepository,
+                        UserRepository driverRepository, BusRepository busRepository) {
+                this.scheduleRepository = sheduleRepository;
+                this.lineRepository = lineRepository;
+                this.driverRepository = driverRepository;
+                this.busRepository = busRepository;
+        }
 
-    @GetMapping
-    public List<Schedule> getSchedules() {
-        return scheduleRepository.findAll();
-    }
+        @GetMapping
+        public List<Schedule> getSchedules() {
+                return scheduleRepository.findAll();
+        }
 
-    @GetMapping("/{id}")
-    public Schedule find(@PathVariable Long id) {
-        return scheduleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule não encontrado"));
-    }
+        @GetMapping("/{id}")
+        public Schedule find(@PathVariable Long id) {
+                return scheduleRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Schedule não encontrado"));
+        }
 
-    @PostMapping
-    public Schedule save(@RequestBody ScheduleDto scheduleDto) {
-        Line line = lineRepository.findById(scheduleDto.lineId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Linha não encontrada"));
+        @PostMapping
+        public Schedule save(@RequestBody ScheduleDto scheduleDto) {
+                Line line = lineRepository.findById(scheduleDto.lineId())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Linha não encontrada"));
 
-        Schedule newSchedule = new Schedule(
-                line,
-                scheduleDto.departureTime());
-        return scheduleRepository.save(newSchedule);
-    }
+                User driver = driverRepository.findById(scheduleDto.driverId())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Motorista não encontrado"));
 
-    @PutMapping("/{id}")
-    public Schedule update(@PathVariable Long id, @RequestBody ScheduleDto scheduleDto) {
-        Schedule existingSchedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule não encontrado"));
+                Bus bus = scheduleDto.busId() != null ? busRepository.findById(scheduleDto.busId())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Ônibus não encontrado"))
+                                : null;
 
-        Line line = lineRepository.findById(scheduleDto.lineId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Linha não encontrada"));
+                Schedule newSchedule = new Schedule(
+                                line,
+                                scheduleDto.departureTime(),
+                                driver,
+                                bus);
+                return scheduleRepository.save(newSchedule);
+        }
 
-        existingSchedule.setLine(line);
-        existingSchedule.setDepartureTime(scheduleDto.departureTime());
+        @PutMapping("/{id}")
+        public Schedule update(@PathVariable Long id, @RequestBody ScheduleDto scheduleDto) {
+                Schedule existingSchedule = scheduleRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Schedule não encontrado"));
 
-        return scheduleRepository.save(existingSchedule);
-    }
+                Line line = lineRepository.findById(scheduleDto.lineId())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Linha não encontrada"));
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Schedule existingSchedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule não encontrado"));
+                existingSchedule.setLine(line);
+                existingSchedule.setDepartureTime(scheduleDto.departureTime());
 
-        scheduleRepository.delete(existingSchedule);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+                return scheduleRepository.save(existingSchedule);
+        }
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> delete(@PathVariable Long id) {
+                Schedule existingSchedule = scheduleRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Schedule não encontrado"));
+
+                scheduleRepository.delete(existingSchedule);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
 
 }

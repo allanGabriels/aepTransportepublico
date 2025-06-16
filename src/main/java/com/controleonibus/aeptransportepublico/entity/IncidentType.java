@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import com.controleonibus.aeptransportepublico.enums.IncidentLevel;
 import com.controleonibus.aeptransportepublico.enums.IncidentTypes;
 
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
@@ -16,15 +17,15 @@ public class IncidentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private IncidentTypes incidentType;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private IncidentLevel level;
 
     public IncidentType(String incidentType, String level) {
-        this.incidentType = IncidentTypes.valueOf(incidentType);
-        this.level = IncidentLevel.valueOf(level);
+        this.incidentType = IncidentTypes.valueOf(incidentType.toUpperCase());
+        this.level = IncidentLevel.valueOf(level.toUpperCase());
     }
 
     public IncidentTypes getIncidentType() {
@@ -44,6 +45,10 @@ public class IncidentType {
     }
 
     public IncidentType() {
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
 }

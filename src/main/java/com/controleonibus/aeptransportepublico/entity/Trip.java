@@ -104,4 +104,8 @@ public class Trip {
     public void setActualDepartureTime(LocalTime actualDepartureTime) {
         this.actualDepartureTime = actualDepartureTime;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
